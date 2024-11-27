@@ -2,7 +2,10 @@ package com.mycompany.app;
 
 import java.util.Queue;
 import java.util.concurrent.ConcurrentLinkedQueue;
-
+/**
+ * Topic class represents a specific topic in the broker.
+ * It stores messages in a thread-safe manner using a ConcurrentLinkedQueue.
+ */
 public class Topic {
     private final String name;
     private final Queue<String> messages;

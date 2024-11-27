@@ -5,11 +5,17 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+/**
+ * unit tests to validate the functionality of the Broker, Producer, and Consumer classes.
+ */
+
 public class BrokerTest {
     private Broker broker;
     private Producer producer;
     private Consumer consumer;
-
+/**
+     * Sets up the Broker, Producer, and Consumer instances before each test.
+     */
     @BeforeEach
     void setUp() {
         broker = new Broker();
@@ -18,6 +24,10 @@ public class BrokerTest {
         broker.createTopic("test-topic");
     }
 
+
+    /**
+     * Test case to verify that a message sent by the producer is correctly consumed by the consumer.
+     */
     @Test
     void testPublishAndConsumeMessage() {
         // Producer sends a message to the topic
@@ -30,6 +40,9 @@ public class BrokerTest {
         assertEquals("Test Message", message, "Message should match the one sent by producer.");
     }
 
+    /**
+     * Test case to verify that consuming from an empty topic returns null.
+     */
     @Test
     void testConsumeFromEmptyTopic() {
         // Trying to consume from an empty topic should return null
