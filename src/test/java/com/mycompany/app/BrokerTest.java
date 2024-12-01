@@ -6,49 +6,62 @@ import org.junit.jupiter.api.Test;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * unit tests to validate the functionality of the Broker, Producer, and Consumer classes.
+ * Test class for the Broker.
  */
-
 public class BrokerTest {
+    
     private Broker broker;
-    private Producer producer;
-    private Consumer consumer;
-/**
-     * Sets up the Broker, Producer, and Consumer instances before each test.
-     */
+
     @BeforeEach
-    void setUp() {
+    public void setUp() {
         broker = new Broker();
-        producer = new Producer(broker);
-        consumer = new Consumer(broker);
-        broker.createTopic("test-topic");
+        broker.createTopic("test-topic");  // Create a topic before running tests
     }
 
-
-    /**
-     * Test case to verify that a message sent by the producer is correctly consumed by the consumer.
-     */
     @Test
-    void testPublishAndConsumeMessage() {
-        // Producer sends a message to the topic
-        producer.sendMessage("test-topic", "Test Message");
-        
-        // Consumer tries to consume the message
-        String message = consumer.consumeMessage("test-topic");
+    public void testPublishAndConsume() {
+        // Publish a message
+        String message = "Test Message";
+        broker.publish("test-topic", message);
 
-        // Assert the message consumed is the same as the one sent
-        assertEquals("Test Message", message, "Message should match the one sent by producer.");
+        // Consumer consumes the message
+        String consumedMessage = broker.consume("test-topic");
+
+        // Verify that the consumer gets the same message
+        assertEquals(message, consumedMessage, "Consumer should consume the correct message");
     }
 
-    /**
-     * Test case to verify that consuming from an empty topic returns null.
-     */
     @Test
-    void testConsumeFromEmptyTopic() {
-        // Trying to consume from an empty topic should return null
-        String message = consumer.consumeMessage("test-topic");
-        
-        // Assert that the message is null when the topic is empty
-        assertNull(message, "Should return null when topic has no messages.");
+    public void testConsumeEmptyTopic() {
+        // Try to consume from an empty topic
+        String consumedMessage = broker.consume("test-topic");
+
+        // Verify that the message is null since no message is available
+        assertNull(consumedMessage, "Consumer should return null when the topic is empty");
+    }
+
+    @Test
+    public void testContinuousStream() throws InterruptedException {
+        // Produce several messages
+        for (int i = 0; i < 10; i++) {
+            broker.publish("test-topic", "Message " + i);
+        }
+
+        // Allow the consumer time to consume all the messages (5 seconds max)
+        long startTime = System.currentTimeMillis();
+        boolean allConsumed = true;
+
+        for (int i = 0; i < 10; i++) {
+            String message = broker.consume("test-topic");
+            if (message == null || !message.equals("Message " + i)) {
+                allConsumed = false;
+                break;
+            }
+        }
+
+        long elapsedTime = System.currentTimeMillis() - startTime;
+        // Ensure that all messages are consumed within 5 seconds
+        assertTrue(allConsumed, "Consumer should consume all messages within 5 seconds");
+        assertTrue(elapsedTime <= 5000, "Consumer took more than 5 seconds to consume all messages");
     }
 }

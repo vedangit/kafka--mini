@@ -1,0 +1,2 @@
+### @ keywords (Annotations)
+annotations in Java (like @Override, @Test, @Entity) are used to provide metadata or extra information about the code. They don't affect the code's logic but guide tools, compilers, or frameworks in tasks like validation, testing, and documentation. For example, @Override tells the compiler a method is overriding a superclass method, and @Test marks a method as a test in frameworks like JUnit.

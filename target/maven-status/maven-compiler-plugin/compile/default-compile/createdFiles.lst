@@ -1,3 +1,5 @@
+com\mycompany\app\Consumer.class
 com\mycompany\app\Producer.class
 com\mycompany\app\Topic.class
+com\mycompany\app\Main.class
 com\mycompany\app\Broker.class

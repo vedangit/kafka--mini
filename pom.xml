@@ -34,7 +34,7 @@
         <configuration>
           <archive>
             <manifest>
-              <mainClass>com.mycompany.app.App</mainClass> <!-- Specify the main class -->
+                <mainClass>com.mycompany.app.Main</mainClass> <!-- Updated to Main class -->
             </manifest>
           </archive>
           <descriptorRefs>

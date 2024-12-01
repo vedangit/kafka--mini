@@ -1,4 +1,5 @@
 package com.mycompany.app;
+
 /**
  * Producer class is responsible for sending messages to a specific topic in the broker.
  * It interacts with the Broker class to publish messages to topics.
@@ -11,12 +12,10 @@ public class Producer {
      * 
      * @param broker The Broker that this Producer will interact with.
      */
-
     public Producer(Broker broker) {
         this.broker = broker;
     }
 
-    
     /**
      * Sends a message to a specified topic in the broker.
      * 
@@ -24,6 +23,7 @@ public class Producer {
      * @param message The message to be sent.
      */
     public void sendMessage(String topicName, String message) {
+        System.out.println("Producer sending message: " + message);  // Log for debugging
         broker.publish(topicName, message);
     }
 }
